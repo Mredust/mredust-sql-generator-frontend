@@ -23,7 +23,7 @@ const ImportTableDrawer: React.FC<Props> = (props) => {
    * @param setDataList
    * @param setTotal
    */
-  const loadMyData =  undefined;
+  const loadMyData = undefined;
 
   return (
     <Drawer

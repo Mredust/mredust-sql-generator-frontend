@@ -1,15 +1,15 @@
 import { generateCreateTableSql } from '@/services/sqlService';
 import { deleteTableInfo } from '@/services/tableInfoService';
 import {
-  Button,
-  Descriptions,
-  Divider,
-  List,
-  message,
-  Popconfirm,
-  Space,
-  Tag,
-  Typography,
+Button,
+Descriptions,
+Divider,
+List,
+message,
+Popconfirm,
+Space,
+Tag,
+Typography
 } from 'antd';
 import { PaginationConfig } from 'antd/es/pagination';
 import copy from 'copy-to-clipboard';

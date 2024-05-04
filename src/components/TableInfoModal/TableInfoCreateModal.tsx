@@ -49,7 +49,7 @@ const TableInfoCreateModal: React.FC<PropsWithChildren<Props>> = (props) => {
       fieldProps: {
         autoFocus: true,
         placeholder: '请输入中文名称',
-      }
+      },
     },
     {
       title: '内容（不建议在此处修改）',

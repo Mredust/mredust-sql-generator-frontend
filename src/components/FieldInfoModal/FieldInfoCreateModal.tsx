@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from 'react';
 
 interface Props {
   modalVisible: boolean;
-  initialValues?: FieldInfoType.FieldInfo;
+  initialValues?: TableInfoType.FieldInfo;
   onSubmit: () => void;
   onCancel: () => void;
 }
@@ -20,7 +20,7 @@ const FieldInfoCreateModal: React.FC<PropsWithChildren<Props>> = (props) => {
   /**
    * 表格列配置
    */
-  const columns: ProColumns<FieldInfoType.FieldInfo>[] = [
+  const columns: ProColumns<TableInfoType.FieldInfo>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -51,7 +51,7 @@ const FieldInfoCreateModal: React.FC<PropsWithChildren<Props>> = (props) => {
         注意，你提交的内容可能会被公开！
       </Typography.Text>
       <div style={{ marginBottom: 16 }} />
-      <ProTable<FieldInfoType.FieldInfo, FieldInfoType.FieldInfo>
+      <ProTable<TableInfoType.FieldInfo, TableInfoType.FieldInfo>
         form={{
           initialValues,
           submitter: {
