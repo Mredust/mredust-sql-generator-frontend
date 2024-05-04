@@ -27,7 +27,7 @@ export const layout: RunTimeLayoutConfig = () => {
  * https://umijs.org/docs/max/request
  */
 export const request: RequestConfig = {
-  baseURL: 'http://192.168.91.131:4090/api',
+  baseURL: 'http://localhost:4090/api',
   timeout: 10000,
   withCredentials: true,
   requestInterceptors: [],
