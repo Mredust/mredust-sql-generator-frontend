@@ -26,6 +26,7 @@ const AdminDictPage: React.FC<unknown> = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dictData, setDictData] = useState<DictType.Dict>({} as DictType.Dict);
   const actionRef = useRef<ActionType>();
+  //@ts-ignore
   const colorList = [
     'magenta',
     'red',
