@@ -29,7 +29,7 @@ const IndexPage: React.FC = () => {
     useState(false);
   const [genLoading, setGenLoading] = useState(false);
   const formInputRef: any = useRef();
-  const [layout, setLayout] = useState('input');
+  const [layout, setLayout] = useState('half');
 
   const [searchParams] = useSearchParams();
 
