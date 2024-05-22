@@ -14,20 +14,12 @@ declare namespace DictType {
   }
 
   /**
-   * 创建请求
+   * 请求
    */
-  interface DictAddRequest {
+  interface DictRequest {
+    id?: number;
     name: string;
     content: string;
-  }
-
-  /**
-   * 更新请求
-   */
-  interface DictUpdateRequest {
-    id: number;
-    name?: string;
-    content?: string;
   }
 
   /**

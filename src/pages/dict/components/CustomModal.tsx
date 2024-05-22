@@ -1,4 +1,4 @@
-import { addDict } from '@/services/dictService';
+import { addDict, updateDict } from '@/services/dictService';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -13,7 +13,9 @@ import {
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import '../index.less';
 
-interface CreateModalProps {
+interface CustomModalProps {
+  type: string;
+  oldData?: DictType.Dict;
   modalVisible: boolean;
   onSubmit: () => void;
   onCancel: () => void;
@@ -26,8 +28,8 @@ const tagInputStyle: React.CSSProperties = {
   verticalAlign: 'top',
 };
 
-const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
-  const { modalVisible, onSubmit, onCancel } = props;
+const CustomModal: React.FC<PropsWithChildren<CustomModalProps>> = (props) => {
+  const { type, oldData, modalVisible, onSubmit, onCancel } = props;
   const [name, setName] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [inputVisible, setInputVisible] = useState(false);
@@ -36,6 +38,12 @@ const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
   const [editInputValue, setEditInputValue] = useState('');
   const inputRef = useRef<InputRef>(null);
   const editInputRef = useRef<InputRef>(null);
+  useEffect(() => {
+    if (oldData && oldData.name && oldData.content) {
+      setName(oldData.name);
+      setTags(oldData.content.split(','));
+    }
+  }, [oldData]);
 
   useEffect(() => {
     if (inputVisible) {
@@ -87,29 +95,31 @@ const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
   const handleInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  /**
-   * 添加节点
-   */
-  const handleAdd = async () => {
+
+  const handleRequest = async () => {
     let tagsStr = tags.join(',');
     // 校验
     if (!name || !tagsStr) {
       message.error('数据不能为空');
       return false;
     }
-    const hide = message.loading('正在添加');
+    const requestData = {
+      name,
+      content: tagsStr,
+      ...(type === 'update' && { id: oldData?.id }),
+    };
+    const hide = message.loading('正在处理请求中...');
     try {
-      await addDict({
-        name,
-        content: tagsStr,
-      } as DictType.DictAddRequest);
+      await (type === 'update'
+        ? updateDict(requestData)
+        : addDict(requestData));
       hide();
-      message.success('添加成功');
+      message.success('处理成功');
       onSubmit();
       return true;
     } catch (error) {
       hide();
-      message.error('添加失败请重试！');
+      message.error('处理失败请重试！');
       return false;
     }
   };
@@ -117,9 +127,12 @@ const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
     <Modal
       width={800}
       destroyOnClose
-      title="新增词库"
+      title={type === 'create' ? '新增词库' : '更新词库'}
       open={modalVisible}
-      onCancel={() => onCancel()}
+      onCancel={() => {
+        handleReset();
+        onCancel();
+      }}
       footer={[
         <Button key="back" onClick={handleReset}>
           重置
@@ -127,9 +140,12 @@ const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
         <Button
           key="submit"
           type="primary"
-          onClick={() => {
-            // @ts-ignore
-            handleAdd().then((success) => success ?? onCancel());
+          onClick={async () => {
+            const success = await handleRequest();
+            if (!success) {
+              onCancel();
+            }
+            handleReset();
           }}
         >
           提交
@@ -219,4 +235,4 @@ const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
   );
 };
 
-export default CreateModal;
+export default CustomModal;

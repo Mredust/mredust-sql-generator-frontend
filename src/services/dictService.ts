@@ -7,7 +7,7 @@ import { request } from '@umijs/max';
  * 创建
  * @param params
  */
-export async function addDict(params: DictType.DictAddRequest) {
+export async function addDict(params: DictType.DictRequest) {
   return request<BaseResponse<number>>('/dict/add', {
     method: 'POST',
     headers: {
@@ -35,7 +35,7 @@ export async function deleteDict(params: DeleteRequest) {
  * 更新
  * @param params
  */
-export async function updateDict(params: DictType.DictUpdateRequest) {
+export async function updateDict(params: DictType.DictRequest) {
   return request<BaseResponse<boolean>>(`/dict/update`, {
     method: 'PUT',
     headers: {

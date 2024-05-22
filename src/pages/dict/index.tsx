@@ -1,3 +1,4 @@
+import CustomModal from '@/pages/dict/components/CustomModal';
 import { deleteDict, listDictByPage } from '@/services/dictService';
 import {
   ActionType,
@@ -15,19 +16,15 @@ import {
   Typography,
 } from 'antd';
 import React, { useRef, useState } from 'react';
-import CreateModal from './components/CreateModal';
-import UpdateModal from './components/UpdateModal';
 
 /**
  * 词库管理页面
  * @constructor
  */
 const AdminDictPage: React.FC<unknown> = () => {
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  const [updateData, setUpdateData] = useState<DictType.Dict>(
-    {} as DictType.Dict,
-  );
+  const [type, setType] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [dictData, setDictData] = useState<DictType.Dict>({} as DictType.Dict);
   const actionRef = useRef<ActionType>();
   const colorList = [
     'magenta',
@@ -128,8 +125,9 @@ const AdminDictPage: React.FC<unknown> = () => {
             onClick={() => {
               let temp = { ...record };
               temp.content = JSON.parse(record.content).join(',');
-              setUpdateData(temp);
-              setUpdateModalVisible(true);
+              setType('update');
+              setDictData(temp);
+              setModalVisible(true);
             }}
           >
             修改
@@ -166,7 +164,10 @@ const AdminDictPage: React.FC<unknown> = () => {
           <Button
             key="1"
             type="primary"
-            onClick={() => setCreateModalVisible(true)}
+            onClick={() => {
+              setType('create');
+              setModalVisible(true);
+            }}
           >
             新增
           </Button>,
@@ -184,22 +185,15 @@ const AdminDictPage: React.FC<unknown> = () => {
         }}
         columns={columns}
       />
-      <CreateModal
-        modalVisible={createModalVisible}
+      <CustomModal
+        type={type}
+        oldData={dictData}
+        modalVisible={modalVisible}
         onSubmit={() => {
-          setCreateModalVisible(false);
+          setModalVisible(false);
           actionRef.current?.reload();
         }}
-        onCancel={() => setCreateModalVisible(false)}
-      />
-      <UpdateModal
-        modalVisible={updateModalVisible}
-        oldData={updateData}
-        onSubmit={() => {
-          setUpdateModalVisible(false);
-          actionRef.current?.reload();
-        }}
-        onCancel={() => setUpdateModalVisible(false)}
+        onCancel={() => setModalVisible(false)}
       />
     </PageContainer>
   );
