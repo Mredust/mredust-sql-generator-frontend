@@ -186,7 +186,6 @@ const AdminDictPage: React.FC<unknown> = () => {
       />
       <CreateModal
         modalVisible={createModalVisible}
-        columns={columns}
         onSubmit={() => {
           setCreateModalVisible(false);
           actionRef.current?.reload();
@@ -196,7 +195,6 @@ const AdminDictPage: React.FC<unknown> = () => {
       <UpdateModal
         modalVisible={updateModalVisible}
         oldData={updateData}
-        columns={columns}
         onSubmit={() => {
           setUpdateModalVisible(false);
           actionRef.current?.reload();

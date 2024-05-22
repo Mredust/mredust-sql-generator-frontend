@@ -1,6 +1,5 @@
 import { addDict } from '@/services/dictService';
 import { PlusOutlined } from '@ant-design/icons';
-import { ProColumns } from '@ant-design/pro-components';
 import {
   Button,
   Card,
@@ -16,7 +15,6 @@ import '../index.less';
 
 interface CreateModalProps {
   modalVisible: boolean;
-  columns: ProColumns<DictType.Dict>[];
   onSubmit: () => void;
   onCancel: () => void;
 }
@@ -28,13 +26,8 @@ const tagInputStyle: React.CSSProperties = {
   verticalAlign: 'top',
 };
 
-/**
- * 创建数据模态框
- * @param props
- * @constructor
- */
 const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
-  const { modalVisible, columns, onSubmit, onCancel } = props;
+  const { modalVisible, onSubmit, onCancel } = props;
   const [name, setName] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [inputVisible, setInputVisible] = useState(false);
@@ -96,9 +89,8 @@ const CreateModal: React.FC<PropsWithChildren<CreateModalProps>> = (props) => {
   };
   /**
    * 添加节点
-   * @param fields
    */
-  const handleAdd = async (fields: DictType.Dict) => {
+  const handleAdd = async () => {
     let tagsStr = tags.join(',');
     // 校验
     if (!name || !tagsStr) {
